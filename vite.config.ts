@@ -14,9 +14,4 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
-  build: {
-    rollupOptions: {
-      external: ["@remix-run/node"],
-    },
-  },
 })

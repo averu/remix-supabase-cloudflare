@@ -1,6 +1,5 @@
 // session.server.ts
-import { Session } from "@remix-run/cloudflare"
-import { createCookieSessionStorage } from "@remix-run/node"
+import { Session, createCookieSessionStorage } from "@remix-run/cloudflare"
 
 // 環境変数からセッションの秘密鍵を取得
 const sessionSecret = process.env.SESSION_SECRET
