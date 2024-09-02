@@ -4,7 +4,7 @@ import { z } from "zod"
 import { useActionData, redirect } from "@remix-run/react"
 import { createSupabaseServerClient } from "~/utils/supabase.server"
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/cloudflare"
-import { getSession, commitSession } from "~/utils/sessions"
+import { createSessionStorage } from "~/utils/sessions"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form"
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
@@ -15,7 +15,9 @@ const LoginSchema = z.object({
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
 })
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
+  const { getSession } = createSessionStorage(context)
+
   const {
     data: { user },
   } = await getSession(request)
@@ -26,6 +28,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 }
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
+  const { getSession, commitSession } = createSessionStorage(context)
   const supabase = createSupabaseServerClient(request, context)
   const formData = await request.formData()
   const email = formData.get("email") as string

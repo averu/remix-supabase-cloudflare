@@ -1,9 +1,10 @@
 import { useLoaderData, redirect } from "@remix-run/react"
 import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/cloudflare"
-import { destroySession, getSession } from "~/utils/sessions"
+import { createSessionStorage } from "~/utils/sessions"
 import { Button } from "~/components/ui/button"
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
+  const { getSession } = createSessionStorage(context)
   const {
     data: { user },
   } = await getSession(request)
@@ -14,7 +15,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return user
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
+  const { getSession, destroySession } = createSessionStorage(context)
   const session = await getSession(request)
   return redirect("/login", {
     headers: {
