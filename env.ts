@@ -1,4 +1,5 @@
 import { type PlatformProxy } from "wrangler";
+import { type PrismaClient } from "@prisma/client";
 
 interface Env {
   DATABASE_URL: string;
@@ -14,5 +15,6 @@ type Cloudflare = Omit<PlatformProxy<Env>, "dispose">;
 declare module "@remix-run/cloudflare" {
   interface AppLoadContext {
     cloudflare: Cloudflare;
+    db: PrismaClient;
   }
 }
