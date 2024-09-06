@@ -3,16 +3,28 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useActionData, redirect } from "@remix-run/react"
 import { createSupabaseServerClient } from "~/utils/supabase.server"
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/cloudflare"
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+} from "@remix-run/cloudflare"
 import { createSessionStorage } from "~/utils/sessions"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form"
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
 
 // バリデーションスキーマ
 const LoginSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters." }),
 })
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
@@ -60,7 +72,6 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
 export default function Login() {
   const actionData: { error?: string } = useActionData() as { error?: string }
-
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -110,7 +121,9 @@ export default function Login() {
               </FormItem>
             )}
           />
-          {actionData?.error && <div className="text-red-500">{actionData.error}</div>}
+          {actionData?.error && (
+            <div className="text-red-500">{actionData.error}</div>
+          )}
           <Button
             type="submit"
             className="w-full"

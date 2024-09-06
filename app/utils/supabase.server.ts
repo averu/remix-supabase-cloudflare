@@ -2,22 +2,21 @@ import {
   createServerClient,
   parseCookieHeader,
   serializeCookieHeader,
-} from "@supabase/ssr";
-import type { AppLoadContext } from "@remix-run/cloudflare";
+} from "@supabase/ssr"
+import type { AppLoadContext } from "@remix-run/cloudflare"
 
 export function createSupabaseServerClient(
   request: Request,
-  c: AppLoadContext
+  context: AppLoadContext
 ) {
-  const headers = new Headers();
-
+  const headers = new Headers()
   const supabase = createServerClient(
-    c.cloudflare.env.SUPABASE_URL,
-    c.cloudflare.env.SUPABASE_ANON_KEY,
+    context.cloudflare.env.SUPABASE_URL,
+    context.cloudflare.env.SUPABASE_KEY,
     {
       cookies: {
         getAll() {
-          return parseCookieHeader(request.headers.get("Cookie") ?? "");
+          return parseCookieHeader(request.headers.get("Cookie") ?? "")
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) =>
@@ -25,11 +24,11 @@ export function createSupabaseServerClient(
               "Set-Cookie",
               serializeCookieHeader(name, value, options)
             )
-          );
+          )
         },
       },
     }
-  );
+  )
 
-  return supabase;
+  return supabase
 }
