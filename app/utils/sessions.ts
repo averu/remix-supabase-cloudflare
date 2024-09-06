@@ -13,7 +13,7 @@ export const createSessionStorage = (context: AppLoadContext) => {
     cookie: {
       name: "__session", // クッキーの名前
       httpOnly: true, // JavaScriptからクッキーにアクセスできないようにする
-      secure: context.cloudflare.env.NODE_ENV === "production", // 本番環境ではHTTPSを必須にする
+      secure: context.cloudflare.env.CLOUDFLARE_ENV === "production", // 本番環境ではHTTPSを必須にする
       sameSite: "lax", // クロスサイトリクエストでクッキーを送信するかどうか
       path: "/", // クッキーが有効なパス
       maxAge: 60 * 60 * 24 * 30, // クッキーの有効期間（例: 30日）

@@ -9,7 +9,7 @@ interface Env {
   SUPABASE_ANON_KEY: string
   SUPABASE_DB_PASSWORD: string
   SESSION_SECRET: string
-  NODE_ENV: string
+  CLOUDFLARE_ENV: string
 }
 
 type Cloudflare = Omit<PlatformProxy<Env>, "dispose">
