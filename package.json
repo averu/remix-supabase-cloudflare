@@ -12,7 +12,8 @@
     "typecheck": "tsc",
     "typegen": "wrangler types",
     "preview": "npm run build && wrangler pages deploy --branch preview",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "setup": "prisma generate && prisma migrate dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

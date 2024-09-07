@@ -1,4 +1,4 @@
-import { useLoaderData, redirect } from "@remix-run/react"
+import { useLoaderData, redirect, Link } from "@remix-run/react"
 import type {
   LoaderFunctionArgs,
   ActionFunctionArgs,
@@ -35,6 +35,12 @@ export default function Dashboard() {
     <div className="flex flex-col items-center justify-center h-screen space-y-4">
       <h1 className="text-2xl font-bold">Dashboard</h1>
       <p>Welcome, {email}!</p>
+
+      {/* Todoリストへの遷移リンクを追加 */}
+      <Link to="/todos">
+        <Button>Go to Todo List</Button>
+      </Link>
+
       <form method="post">
         <Button type="submit">Logout</Button>
       </form>
